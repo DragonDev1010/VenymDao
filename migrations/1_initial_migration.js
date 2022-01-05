@@ -1,8 +1,8 @@
-const Migrations = artifacts.require("Migrations");
 const CreateToken = artifacts.require("CreateToken");
 const Factory = artifacts.require("Factory")
-module.exports = function (deployer) {
-  	deployer.deploy(Migrations);
-	deployer.deploy(CreateToken, "test", "TTT", 100000)
-	deployer.deploy(Factory)
+const CreateTokenProposal = artifacts.require("CreateTokenProposal")
+module.exports = async function (deployer) {
+	await deployer.deploy(CreateToken, "test", "TTT", 100000)
+	let factory = await deployer.deploy(Factory)
+	await deployer.deploy(CreateTokenProposal, factory.address)
 };

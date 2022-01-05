@@ -81,6 +81,15 @@ module.exports = {
       network_id: 97, // BSC testnet
       skipDryRun: true
     },
+    rinkeby: {
+      networkCheckTimeout: 10000,
+      provider: () => new HDWalletProvider(
+        mnemonic, 
+        'https://rinkeby.infura.io/v3/b8a10907bdda41c6ac713b5efc0257ee'
+      ),
+      network_id: 4, // Rinkeby testnet
+      skipDryRun: true
+    }
   },
 
   // Set default mocha options here, use special reporters etc.
