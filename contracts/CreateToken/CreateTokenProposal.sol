@@ -17,10 +17,10 @@ contract CreateTokenProposal {
     }
     Token[] tokenList;
     mapping(uint256 => bool) public tokenCreated;
-    mapping(address => bool) public voters;
+    mapping(uint256 => mapping(address => bool)) public voters;
     mapping(uint256 => uint256) public voteUp;
     mapping(uint256 => uint256) public voteDown;
-    address[] createdTokenAddrList;
+    address[] public createdTokenAddrList;
     event CreatedProposal(string name_, string symbol_, uint256 total_, address creator_, uint256 created_);
     function createProp(string memory name_, string memory symbol_, uint256 total_) public returns(uint256 prop_id){
         Token memory newToken = Token(name_, symbol_, total_, msg.sender, block.timestamp);
@@ -29,10 +29,9 @@ contract CreateTokenProposal {
         emit CreatedProposal(name_, symbol_, total_, msg.sender, block.timestamp);
     }
     function vote(uint256 prop_id, bool voting) public returns(bool) {
-        address creatorTmp = tokenList[prop_id].creator;
-        require(msg.sender != creatorTmp, 'Proposal creator can not vote');
-        require(voters[msg.sender] == false, 'Nobody can vote again');
-        voters[msg.sender] = true;
+        require(msg.sender != tokenList[prop_id].creator, 'Proposal creator can not vote');
+        require(voters[prop_id][msg.sender] == false, 'Nobody can vote again');
+        voters[prop_id][msg.sender] = true;
         if(voting) {
             voteUp[prop_id]++;
         } else {
@@ -46,6 +45,7 @@ contract CreateTokenProposal {
         uint256 duration = (block.timestamp - tokenList[prop_id].created) / 60 / 60 / 24;
         // require( duration > 7, 'The duration of proposal is 7 days');
         createdTokenAddr = factory.createToken(tokenList[prop_id].tokenName, tokenList[prop_id].tokenSymbol, tokenList[prop_id].tokenTotal);
+        createdTokenAddrList.push(createdTokenAddr);
         tokenCreated[prop_id] = true;
     }
 }
