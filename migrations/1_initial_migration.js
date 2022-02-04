@@ -1,18 +1,6 @@
-// const CreateToken = artifacts.require("CreateToken");
-// const Factory = artifacts.require("Factory")
-// const CreateTokenProposal = artifacts.require("CreateTokenProposal")
-
-// const BurnToken = artifacts.require('BurnToken')
-
-// module.exports = async function (deployer) {
-// 	await deployer.deploy(CreateToken, "test", "TTT", 100000)
-// 	await deployer.deploy(Factory)
-// 	await deployer.deploy(CreateTokenProposal, Factory.address)
-
-// 	await deployer.deploy(BurnToken)
-// };
-
+const Dao = artifacts.require('Dao')
 const VNMToken = artifacts.require('VNMToken')
 module.exports = async function (deployer) {
+	await deployer.deploy(Dao)
 	await deployer.deploy(VNMToken, "VenymDAO", "VNM")
 };

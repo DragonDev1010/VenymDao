@@ -5,20 +5,22 @@ require('chai')
 const {assert} = require('chai')
 
 const VNMToken = artifacts.require('./GovernanceToken/VNMToken.sol')
+const Dao = artifacts.require('./Dao.sol')
 
 // $VNM Owner : accounts[0]
-// Fee Wallet : accounts[9]
+// Fee Wallet : daoAddr
 contract('Main Test', (accounts) => {
-    let vnm, res
-    let feeWallet
+    let vnm, dao, res
+    let feeWallet, daoAddr
     before(async() => {
-        console.log(accounts)
         vnm = await VNMToken.deployed()
+        dao = await Dao.deployed()
+        daoAddr = Dao.address
     })
     it('Set Fee Wallet Address', async() => {
-        res = await vnm.setFeeWallet(accounts[9])
+        res = await vnm.setFeeWallet(daoAddr)
         feeWallet = await vnm.FeeWalletAddr.call()
-        assert.equal(feeWallet, accounts[9], 'VNMToken.setFeeWallet: correct')
+        assert.equal(feeWallet, daoAddr, 'VNMToken.setFeeWallet: correct')
     })
     it('Transfer $VNM', async() => {
         await vnm.transfer(accounts[1], web3.utils.toWei('10000', 'Gwei'))
