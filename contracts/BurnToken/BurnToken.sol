@@ -10,7 +10,7 @@ contract BurnToken {
         address creator;
         uint256 created;
     }
-    BurnProposal[] propList;
+    BurnProposal[] public propList;
     mapping(uint256 => bool) propExecuted;
     mapping(address => bool) voters;
     mapping(uint256 => uint256) voteUp;
