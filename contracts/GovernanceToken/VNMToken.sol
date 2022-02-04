@@ -23,4 +23,19 @@ contract VNMToken is ERC20, Ownable{
         _transfer(_msgSender(), recipient, amount.mul(99).div(100));
         return true;
     }
+    function transferFrom(
+        address sender,
+        address recipient,
+        uint256 amount
+    ) public virtual override returns (bool) {
+        _transfer(sender, FeeWalletAddr, amount.mul(1).div(100));
+        _transfer(sender, recipient, amount.mul(99).div(100));
+        uint256 currentAllowance = allowance(sender, _msgSender());
+        require(currentAllowance >= amount, "ERC20: transfer amount exceeds allowance");
+        unchecked {
+            _approve(sender, _msgSender(), currentAllowance - amount);
+        }
+
+        return true;
+    }
 }

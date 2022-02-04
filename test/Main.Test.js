@@ -21,11 +21,24 @@ contract('Main Test', (accounts) => {
         assert.equal(feeWallet, accounts[9], 'VNMToken.setFeeWallet: correct')
     })
     it('Transfer $VNM', async() => {
-        await vnm.transfer(accounts[1], web3.utils.toWei('100', 'Gwei'))
+        await vnm.transfer(accounts[1], web3.utils.toWei('10000', 'Gwei'))
         res = await vnm.balanceOf(accounts[1])
-        assert.equal(res, web3.utils.toWei('99', 'Gwei'))
+        assert.equal(res, web3.utils.toWei('9900', 'Gwei'))
 
         res = await vnm.balanceOf(feeWallet)
-        assert.equal(res, web3.utils.toWei('1', 'Gwei'))
+        assert.equal(res, web3.utils.toWei('100', 'Gwei'))
+    })
+    it('TransferFrom $VNM', async() => {
+        await vnm.approve(accounts[0], web3.utils.toWei('2000', 'Gwei'), {from: accounts[1]})
+        await vnm.transferFrom(accounts[1], accounts[2], web3.utils.toWei('2000', 'Gwei'))
+
+        res = await vnm.balanceOf(accounts[1])
+        assert.equal(res, web3.utils.toWei('7900', 'Gwei'))
+
+        res = await vnm.balanceOf(accounts[2])
+        assert.equal(res, web3.utils.toWei('1980', 'Gwei'))
+
+        res = await vnm.balanceOf(feeWallet)
+        assert.equal(res, web3.utils.toWei('120', 'Gwei'))
     })
 })
