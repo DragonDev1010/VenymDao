@@ -2,11 +2,19 @@
 pragma solidity >=0.4.22 <0.9.0;
 
 import './Factory.sol';
+import '../Dao.sol';
 import './Interface/IFactory.sol';
+import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
+import '@openzeppelin/contracts/utils/math/SafeMath.sol';
 contract CreateTokenProposal {
+    using SafeMath for uint256;
     IFactory factory;
-    constructor (address factory_) {
+    IERC20 vnmToken;
+    Dao daoContract;
+    constructor (address factory_, address vnmTokenAddr, address daoAddr) {
         factory = IFactory(factory_);
+        vnmToken = IERC20(vnmTokenAddr);
+        daoContract = Dao(daoAddr);
     }
     struct NewTokenProposal {
         string tokenName;
@@ -36,6 +44,8 @@ contract CreateTokenProposal {
     function vote(uint256 prop_id, bool voting) public returns(bool) {
         require(msg.sender != propList[prop_id].creator, 'Proposal creator can not vote');
         require(voters[prop_id][msg.sender] == false, 'Nobody can vote again');
+        require(vnmToken.allowance(msg.sender, address(this)) == daoContract.voteFee(), 'Voter has not allow voting fee.');
+        vnmToken.transferFrom(msg.sender, address(daoContract), daoContract.voteFee());
         voters[prop_id][msg.sender] = true;
         if(voting) {
             approveAmount[prop_id]++;
@@ -51,12 +61,27 @@ contract CreateTokenProposal {
         uint256 duration = (block.timestamp - propList[prop_id].created) / 60 / 60 / 24;
         // require( duration > 7, 'The duration of proposal is 7 days');
         if(approveAmount[prop_id] > denyAmount[prop_id]) {
+            uint256 prize = (daoContract.voteFee().mul(approveAmount[prop_id].add(denyAmount[prop_id])).mul(99).div(100)).div(approveAmount[prop_id]);
             createdTokenAddr = factory.createToken(propList[prop_id].tokenName, propList[prop_id].tokenSymbol, propList[prop_id].tokenTotal);
             createdTokenAddrList.push(createdTokenAddr);
-
+            for (uint i = 0 ; i < approveAmount[prop_id] ; i++) {
+                vnmToken.transferFrom(address(daoContract), approveList[prop_id][i], prize);
+            }
         } else {
-
+            uint256 prize = (daoContract.voteFee().mul(approveAmount[prop_id].add(denyAmount[prop_id])).mul(99).div(100)).div(denyAmount[prop_id]);
+            for (uint i = 0 ; i < denyAmount[prop_id] ; i++) {
+                vnmToken.transferFrom(address(daoContract), denyList[prop_id][i], prize);
+            }
         }
             propExecuted[prop_id] = true;
+    }
+    function showVotersList(uint256 prop_id) public view returns(uint256, address [] memory, uint256, address[] memory){
+        // require(propExecuted[prop_id] == true, 'In progress proposals can not show voters list.');
+        return(
+            approveAmount[prop_id],
+            approveList[prop_id],
+            denyAmount[prop_id],
+            denyList[prop_id]
+        );
     }
 }
