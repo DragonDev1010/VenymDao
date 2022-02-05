@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for contracts/CreateToken/CreateTokenProposal.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">contracts/CreateToken/</a> CreateTokenProposal.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">89.66% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>26/29</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">58.33% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>7/12</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>5/5</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">90.32% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>28/31</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: MIT
+pragma solidity &gt;=0.4.22 &lt;0.9.0;
+&nbsp;
+import './Factory.sol';
+import '../Dao.sol';
+import './Interface/IFactory.sol';
+import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
+import '@openzeppelin/contracts/utils/math/SafeMath.sol';
+contract CreateTokenProposal {
+    using SafeMath for uint256;
+    IFactory factory;
+    IERC20 vnmToken;
+    Dao daoContract;
+    constructor (address factory_, address vnmTokenAddr, address daoAddr) {
+        factory = IFactory(factory_);
+        vnmToken = IERC20(vnmTokenAddr);
+        daoContract = Dao(daoAddr);
+    }
+    struct NewTokenProposal {
+        string tokenName;
+        string tokenSymbol;
+        uint256 tokenTotal;
+        address creator;
+        uint256 created;
+    }
+    NewTokenProposal[] public propList;
+    mapping(uint256 =&gt; bool) public propExecuted; // propExecuted[propId] = true/false
+    mapping(uint256 =&gt; mapping(address =&gt; bool)) public voters; // voters[propId][msg.sender] = true/false
+    mapping(uint256 =&gt; uint256) private approveAmount; // approveAmount[propId] = 100
+    mapping(uint256 =&gt; uint256) private denyAmount; // denyAmount[propId] = 100
+&nbsp;
+    mapping(uint256 =&gt; address[]) private approveList; // approveList[propId] = [0x0, 0x1, 0x2]
+    mapping(uint256 =&gt; address[]) private denyList; // denyList[propId] = [0x3, 0x4, 0x5]
+    address[] public createdTokenAddrList;
+&nbsp;
+    event CreatedProposal(uint256 propId, string name_, string symbol_, uint256 total_, address creator_, uint256 created_);
+&nbsp;
+    function createProp(string memory name_, string memory symbol_, uint256 total_) public{
+        NewTokenProposal memory newToken = NewTokenProposal(name_, symbol_, total_, msg.sender, block.timestamp);
+        propList.push(newToken);
+        uint256 prop_id = propList.length;
+        emit CreatedProposal(prop_id, name_, symbol_, total_, msg.sender, block.timestamp);
+    }
+    function vote(uint256 prop_id, bool voting) public returns(bool) {
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(msg.sender != propList[prop_id].creator, 'Proposal creator can not vote');
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(voters[prop_id][msg.sender] == false, 'Nobody can vote again');
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(vnmToken.allowance(msg.sender, address(this)) == daoContract.voteFee(), 'Voter has not allow voting fee.');
+        vnmToken.transferFrom(msg.sender, address(daoContract), daoContract.voteFee());
+        voters[prop_id][msg.sender] = true;
+        if(voting) {
+            approveAmount[prop_id]++;
+            approveList[prop_id].push(msg.sender);
+        } else {
+            denyAmount[prop_id]++;
+            denyList[prop_id].push(msg.sender);
+        }
+        return true;
+    }
+    function execute(uint256 prop_id) public returns(address createdTokenAddr) {
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(propExecuted[prop_id] != true, 'The proposal has already executed');
+        uint256 duration = (block.timestamp - propList[prop_id].created) / 60 / 60 / 24;
+        // require( duration &gt; 7, 'The duration of proposal is 7 days');
+        <span class="missing-if-branch" title="else path not taken" >E</span>if(approveAmount[prop_id] &gt; denyAmount[prop_id]) {
+            uint256 prize = (daoContract.voteFee().mul(approveAmount[prop_id].add(denyAmount[prop_id])).mul(99).div(100)).div(approveAmount[prop_id]);
+            createdTokenAddr = factory.createToken(propList[prop_id].tokenName, propList[prop_id].tokenSymbol, propList[prop_id].tokenTotal);
+            createdTokenAddrList.push(createdTokenAddr);
+            for (uint i = 0 ; i &lt; approveAmount[prop_id] ; i++) {
+                vnmToken.transferFrom(address(daoContract), approveList[prop_id][i], prize);
+            }
+        } else {
+<span class="cstat-no" title="statement not covered" >            uint256 prize = (daoContract.voteFee().mul(approveAmount[prop_id].add(denyAmount[prop_id])).mul(99).div(100)).div(denyAmount[prop_id]);</span>
+<span class="cstat-no" title="statement not covered" >            for (uint i = 0 ; i &lt; denyAmount[prop_id] ; i++) {</span>
+<span class="cstat-no" title="statement not covered" >                vnmToken.transferFrom(address(daoContract), denyList[prop_id][i], prize)</span>;
+            }
+        }
+            propExecuted[prop_id] = true;
+    }
+    function showVotersList(uint256 prop_id) public view returns(uint256, address [] memory, uint256, address[] memory){
+        // require(propExecuted[prop_id] == true, 'In progress proposals can not show voters list.');
+        return(
+            approveAmount[prop_id],
+            approveList[prop_id],
+            denyAmount[prop_id],
+            denyList[prop_id]
+        );
+    }
+}</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Feb 06 2022 01:06:39 GMT+0800 (Ulaanbaatar Standard Time)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>
