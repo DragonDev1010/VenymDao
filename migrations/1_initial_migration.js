@@ -3,6 +3,7 @@ const VNMToken = artifacts.require('VNMToken')
 
 const Factory = artifacts.require("Factory")
 const CreateTokenProposal = artifacts.require("CreateTokenProposal")
+const BurnTokenProposal = artifacts.require("BurnTokenProposal")
 
 module.exports = async function (deployer) {
 	await deployer.deploy(VNMToken, "VenymDAO", "VNM")
@@ -10,4 +11,5 @@ module.exports = async function (deployer) {
 
 	await deployer.deploy(Factory)
 	await deployer.deploy(CreateTokenProposal, Factory.address, VNMToken.address, Dao.address)
+	await deployer.deploy(BurnTokenProposal, VNMToken.address, Dao.address)
 };
