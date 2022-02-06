@@ -6,7 +6,7 @@ import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
 contract Dao is Ownable{
     uint256 public voteFee;
     IERC20 governanceToken;
-    address createTokenProposal;
+    mapping(address => bool) public proposalAddrList;
     constructor(address govAddr) {
         governanceToken = IERC20(govAddr);
     }
@@ -14,10 +14,10 @@ contract Dao is Ownable{
         voteFee = fee_;
     }
     function setProposalAddress(address addr_) public onlyOwner{
-        createTokenProposal = addr_;
+        proposalAddrList[addr_] = true;
     }
     function approve(address spender, uint256 amount) public {
-        require(msg.sender == createTokenProposal, 'Only porposal contracts can approve DAO wallet.');
+        require(proposalAddrList[msg.sender] == true, 'Only porposal contracts can approve DAO wallet.');
         governanceToken.approve(spender, amount);
     }
 }
