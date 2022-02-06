@@ -29,6 +29,9 @@ contract('Main Test', (accounts) => {
         feeWallet = await vnm.FeeWalletAddr.call()
         assert.equal(feeWallet, daoAddr, 'VNMToken.setFeeWallet: correct')
     })
+    it('Set proposal contract address in DAO contract', async() => {
+        await dao.setProposalAddress(CreateTokenProposal.address, {from: accounts[0]});
+    })
     it('Transfer $VNM', async() => {
         await vnm.transfer(accounts[1], web3.utils.toWei('10000', 'Gwei'))
         res = await vnm.balanceOf(accounts[1])
@@ -114,10 +117,6 @@ contract('Main Test', (accounts) => {
     })
     it('Execute proposal', async() => {
         let totalVoteFee = voteFee * (parseInt(approveAmount) + parseInt(denyAmount))
-
-        await dao.approve(createTokenAddr, totalVoteFee)
-        res = await vnm.allowance(daoAddr, createTokenAddr)
-        assert.equal(res, totalVoteFee, 'DAO wallet approves total fee balance $VNM to createTokenProposal wallet.')
         await createToken.execute(0)
 
         res = await createToken.propExecuted.call(0)
