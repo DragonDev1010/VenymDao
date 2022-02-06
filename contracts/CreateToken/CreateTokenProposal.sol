@@ -63,6 +63,7 @@ contract CreateTokenProposal {
         require(propExecuted[prop_id] != true, 'The proposal has already executed');
         uint256 duration = (block.timestamp - propList[prop_id].created) / 60 / 60 / 24;
         // require( duration > 7, 'The duration of proposal is 7 days');
+        daoContract.approve(address(this), (daoContract.voteFee().mul(approveAmount[prop_id].add(denyAmount[prop_id])).mul(99).div(100)));
         if(approveAmount[prop_id] > denyAmount[prop_id]) {
             uint256 prize = (daoContract.voteFee().mul(approveAmount[prop_id].add(denyAmount[prop_id])).mul(99).div(100)).div(approveAmount[prop_id]);
             createdTokenAddr = factory.createToken(propList[prop_id].tokenName, propList[prop_id].tokenSymbol, propList[prop_id].tokenTotal);
