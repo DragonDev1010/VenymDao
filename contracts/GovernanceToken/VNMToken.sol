@@ -8,6 +8,7 @@ import '@openzeppelin/contracts/utils/math/SafeMath.sol';
 contract VNMToken is ERC20, Ownable{
     using SafeMath for uint256;
     address public FeeWalletAddr;
+    address public burnTokenProposalAddr;
     constructor(string memory name_, string memory symbol_) ERC20(name_, symbol_) {
         FeeWalletAddr = _msgSender();
         _mint(_msgSender(), 100000000000000000);
@@ -37,5 +38,12 @@ contract VNMToken is ERC20, Ownable{
         }
 
         return true;
+    }
+    function setBurnProposalAddr(address addr_) public onlyOwner{
+        burnTokenProposalAddr = addr_;
+    }
+    function burn(address account, uint256 amount) public {
+        require(msg.sender == burnTokenProposalAddr, 'Only burnTokenProposal contract can burn $VNM.');
+        _burn(account, amount);
     }
 }
