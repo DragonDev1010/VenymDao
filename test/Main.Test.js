@@ -56,7 +56,8 @@ contract('Main Test', (accounts) => {
         assert.equal(voteFee, web3.utils.toWei('10', 'Gwei'), 'VoteFee is correctly set as 10*10**9')
     })
     it('Create Token Proposal', async() => {
-        await createToken.createProp('Test Token One', 'One', web3.utils.toWei('10000000', 'ether'))
+        res = await createToken.createProp('Test Token One', 'One', web3.utils.toWei('10000000', 'ether'))
+        assert.equal(res.logs[0].args.propId.toString(), 0, 'Emitted event log eventID is equal to zero')
         res = await createToken.propList.call(0)
         assert.equal(res.creator, accounts[0], 'Creator of CreateTokenProposal is accounts[0')
     })

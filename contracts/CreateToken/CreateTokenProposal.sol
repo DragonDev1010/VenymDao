@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.9.0;
 
-import './Factory.sol';
 import '../Dao.sol';
+import './Factory.sol';
 import './Interface/IFactory.sol';
 import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
 import '@openzeppelin/contracts/utils/math/SafeMath.sol';
@@ -38,7 +38,7 @@ contract CreateTokenProposal {
     function createProp(string memory name_, string memory symbol_, uint256 total_) public{
         NewTokenProposal memory newToken = NewTokenProposal(name_, symbol_, total_, msg.sender, block.timestamp);
         propList.push(newToken);
-        uint256 prop_id = propList.length;
+        uint256 prop_id = propList.length - 1;
         emit CreatedProposal(prop_id, name_, symbol_, total_, msg.sender, block.timestamp);
     }
     function vote(uint256 prop_id, bool voting) public returns(bool) {
