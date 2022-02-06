@@ -59,6 +59,7 @@ contract CreateTokenProposal {
         return true;
     }
     function execute(uint256 prop_id) public returns(address createdTokenAddr) {
+        require(prop_id < propList.length, 'Proposal Id is greater than Porposal list size. The asking Proposal Id seems not to exist.');
         require(propExecuted[prop_id] != true, 'The proposal has already executed');
         uint256 duration = (block.timestamp - propList[prop_id].created) / 60 / 60 / 24;
         // require( duration > 7, 'The duration of proposal is 7 days');
