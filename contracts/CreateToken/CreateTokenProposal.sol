@@ -42,6 +42,8 @@ contract CreateTokenProposal {
         emit CreatedProposal(prop_id, name_, symbol_, total_, msg.sender, block.timestamp);
     }
     function vote(uint256 prop_id, bool voting) public returns(bool) {
+        require(prop_id < propList.length, 'Proposal Id is greater than Porposal list size. The asking Proposal Id seems not to exist.');
+        require(propExecuted[prop_id] == false, 'The asking proposal has already executed. The voting period was ended.');
         require(msg.sender != propList[prop_id].creator, 'Proposal creator can not vote');
         require(voters[prop_id][msg.sender] == false, 'Nobody can vote again');
         require(vnmToken.allowance(msg.sender, address(this)) == daoContract.voteFee(), 'Voter has not allow voting fee.');
