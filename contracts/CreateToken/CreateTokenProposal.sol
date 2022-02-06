@@ -80,6 +80,7 @@ contract CreateTokenProposal {
             propExecuted[prop_id] = true;
     }
     function showVotersList(uint256 prop_id) public view returns(uint256, address [] memory, uint256, address[] memory){
+        require(prop_id < propList.length, 'Proposal Id is greater than Porposal list size. The asking Proposal Id seems not to exist.');
         // require(propExecuted[prop_id] == true, 'In progress proposals can not show voters list.');
         return(
             approveAmount[prop_id],
