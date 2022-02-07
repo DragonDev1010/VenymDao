@@ -13,5 +13,5 @@ module.exports = async function (deployer) {
 	await deployer.deploy(Factory)
 	await deployer.deploy(CreateTokenProposal, Factory.address, VNMToken.address, Dao.address)
 	await deployer.deploy(BurnTokenProposal, VNMToken.address, Dao.address)
-	await deployer.deploy(WithdrawTokenProposal, Dao.address)
+	await deployer.deploy(WithdrawTokenProposal, VNMToken.address, Dao.address)
 };
