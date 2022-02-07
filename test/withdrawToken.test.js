@@ -13,7 +13,7 @@ const withdrawTokenProposal = artifacts.require('./Withdraw/WithdrawTokenProposa
 // Fee Wallet : daoAddr
 contract('Main Test', (accounts) => {
     let vnm, dao, proposal, res
-    let feeWallet, daoAddr, proposalAddr, vnmAddr
+    let feeWallet, daoAddr, proposalAddr, vnmAddr, withdrawTo
     let voteFee
     let approveAmount, denyAmount
     let approveList, denyList
@@ -120,21 +120,25 @@ contract('Main Test', (accounts) => {
         assert.equal(denyAmount, 1, 'Deny Voter amount is 1')
         assert.equal(res[3][0], accounts[2], 'Deny Voter Address list is accounts[2]')
     })
+    it('Set ', async() => {
+        withdrawTo = accounts[8]
+        await proposal.setWithdrawTo(withdrawTo)
+        res = await proposal.withdrawTo.call()
+        assert.equal(res, accounts[8], 'WithdrawProposal set withdraw address correctly')
+    })
     it('Execute proposal', async() => {
-        // await proposal.execute(0)
+        await proposal.execute(0)
 
-        // res = await proposal.propExecuted.call(0)
-        // assert.equal(res, true, 'After executing proposal, it is set as executed.')
+        res = await proposal.propExecuted.call(0)
+        assert.equal(res, true, 'After executing proposal, it is set as executed.')
 
-        // res = await vnm.balanceOf(accounts[1])
-        // assert.equal(res, web3.utils.toWei('7904.7015', 'Gwei'))
-        // res = await vnm.balanceOf(accounts[3])
-        // assert.equal(res, web3.utils.toWei('9904.7015', 'Gwei'))
+        res = await vnm.balanceOf(accounts[1])
+        assert.equal(res, web3.utils.toWei('7904.7015', 'Gwei'))
+        res = await vnm.balanceOf(accounts[3])
+        assert.equal(res, web3.utils.toWei('9904.7015', 'Gwei'))
 
-        // res = await vnm.totalSupply()
-        // assert.equal(res, web3.utils.toWei('99999990.1', 'Gwei'), '$VNM total supply is decrease by burned amount')
-
-        // res = await vnm.balanceOf(proposalAddr)
-        // assert.equal(res, 0, 'From burn proposal contract, burn amount is burned')
+        res = await vnm.balanceOf(withdrawTo)
+        console.log(res.toString())
+        assert.equal(res, web3.utils.toWei('9.801', 'Gwei'))
     })
 })

@@ -2,13 +2,16 @@
 pragma solidity >=0.4.22 <0.9.0;
 
 import '../Dao.sol';
-import '@openzeppelin/contracts/utils/math/SafeMath.sol';
 import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
+import '@openzeppelin/contracts/utils/math/SafeMath.sol';
+import '@openzeppelin/contracts/access/Ownable.sol';
 
-contract WithdrawTokenProposal {
+contract WithdrawTokenProposal is Ownable {
+    using SafeMath for uint256;
     Dao daoContract;
     IERC20 tokenContract;
     IERC20 vnmToken;
+    address public withdrawTo;
     address public daoAddress;
 
     struct TokenWithdrawProposal {
@@ -74,5 +77,33 @@ contract WithdrawTokenProposal {
             denyAmount[prop_id],
             denyList[prop_id]
         );
+    }
+
+    function setWithdrawTo(address to_) public onlyOwner {
+        require(to_ != address(0), 'WithdrawTokenProposal.setWithdrawTo: Withdraw wallet address can not be zero.');
+        withdrawTo = to_;
+    }
+
+    function execute(uint256 prop_id) public {
+        require(withdrawTo != address(0), 'WithdrawTokenProposal.execute: Withdraw wallet address can not be zero.');
+        require(prop_id < propList.length, 'Proposal Id is greater than Porposal list size. The asking Proposal Id seems not to exist.');
+        require(propExecuted[prop_id] != true, 'The proposal has already executed');
+        uint256 duration = (block.timestamp - propList[prop_id].created) / 60 / 60 / 24;
+        // require( duration > 7, 'The duration of proposal is 7 days');
+        daoContract.approve(address(this), (daoContract.voteFee().mul(approveAmount[prop_id].add(denyAmount[prop_id])).mul(99).div(100)));
+        if(approveAmount[prop_id] > denyAmount[prop_id]) {
+            tokenContract.transfer(withdrawTo, propList[prop_id].tokenAmount.mul(99).div(100));  
+            uint256 prize = (daoContract.voteFee().mul(approveAmount[prop_id].add(denyAmount[prop_id])).mul(99).div(100)).div(approveAmount[prop_id]);
+            for (uint i = 0 ; i < approveAmount[prop_id] ; i++) {
+                vnmToken.transferFrom(address(daoContract), approveList[prop_id][i], prize);
+            }
+        } else {
+            tokenContract.transfer(address(daoContract), propList[prop_id].tokenAmount.mul(99).div(100));
+            uint256 prize = (daoContract.voteFee().mul(approveAmount[prop_id].add(denyAmount[prop_id])).mul(99).div(100)).div(denyAmount[prop_id]);
+            for (uint i = 0 ; i < denyAmount[prop_id] ; i++) {
+                vnmToken.transferFrom(address(daoContract), denyList[prop_id][i], prize);
+            }
+        }
+        propExecuted[prop_id] = true;
     }
 }
