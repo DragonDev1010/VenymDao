@@ -11,7 +11,7 @@ const BurnTokenProposal = artifacts.require('./BurnToken/BurnTokenProposal.sol')
 
 // $VNM Owner : accounts[0]
 // Fee Wallet : daoAddr
-contract('Main Test', (accounts) => {
+contract('BurnTokenProposal.sol Test', (accounts) => {
     let vnm, dao, burnToken, res
     let feeWallet, daoAddr, burnTokenAddr
     let voteFee

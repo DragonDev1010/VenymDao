@@ -11,7 +11,7 @@ const CreateTokenProposal = artifacts.require('./CreateToken/CreateTokenProposal
 
 // $VNM Owner : accounts[0]
 // Fee Wallet : daoAddr
-contract('Main Test', (accounts) => {
+contract('CreateTokenProposal.sol Test', (accounts) => {
     let vnm, dao, createToken, res
     let feeWallet, daoAddr, createTokenAddr
     let voteFee

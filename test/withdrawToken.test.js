@@ -11,7 +11,7 @@ const withdrawTokenProposal = artifacts.require('./Withdraw/WithdrawTokenProposa
 
 // $VNM Owner : accounts[0]
 // Fee Wallet : daoAddr
-contract('Main Test', (accounts) => {
+contract('WithdrawTokenProposal Test', (accounts) => {
     let vnm, dao, proposal, res
     let feeWallet, daoAddr, proposalAddr, vnmAddr, withdrawTo
     let voteFee
