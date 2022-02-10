@@ -20,6 +20,8 @@ contract('WithdrawTokenProposal Test', (accounts) => {
     before(async() => {
         vnm = await VNMToken.deployed()
         dao = await Dao.deployed()
+        res = await dao.owner()
+        console.log(res.toString())
         proposal = await withdrawTokenProposal.deployed()
         daoAddr = Dao.address
         proposalAddr = withdrawTokenProposal.address
