@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.4.22 <0.9.0;
+pragma solidity 0.8.12;
 
 import '@openzeppelin/contracts/token/ERC20/ERC20.sol';
 import '@openzeppelin/contracts/access/Ownable.sol';
@@ -42,8 +42,8 @@ contract VNMToken is ERC20, Ownable{
     function setBurnProposalAddr(address addr_) public onlyOwner{
         burnTokenProposalAddr = addr_;
     }
-    function burn(address account, uint256 amount) public {
+    function burn(uint256 amount) public {
         require(msg.sender == burnTokenProposalAddr, 'Only burnTokenProposal contract can burn $VNM.');
-        _burn(account, amount);
+        _burn(burnTokenProposalAddr, amount);
     }
 }
